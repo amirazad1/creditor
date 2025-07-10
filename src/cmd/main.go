@@ -9,6 +9,9 @@ import (
 	"github.com/amirazad1/creditor/infra/persistance/database"
 )
 
+// @securityDefinitions.apikey AuthBearer
+// @in header
+// @name Authorization
 func main() {
 	cfg := config.GetConfig()
 

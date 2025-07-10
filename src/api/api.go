@@ -10,6 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
+	"github.com/amirazad1/creditor/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitServer(cfg *config.Config) {	
@@ -24,6 +27,8 @@ func InitServer(cfg *config.Config) {
 		health := v1.Group("/health")
 		routers.Health(health)
 	}
+
+	RegisterSwagger(server, cfg)
 
 	fmt.Println("server is running")
 	server.Run(fmt.Sprintf(":%s", cfg.Server.Port))
@@ -41,4 +46,15 @@ func RegisterValidators() {
 			fmt.Errorf("%s", err.Error())
 		}
 	}
+}
+
+func RegisterSwagger(r *gin.Engine, cfg *config.Config) {
+	docs.SwaggerInfo.Title = "Creditor"
+	docs.SwaggerInfo.Description = "creditor backend web api"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.BasePath = "/api"
+	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.Port)
+	docs.SwaggerInfo.Schemes = []string{"http"}
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
