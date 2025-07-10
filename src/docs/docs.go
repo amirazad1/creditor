@@ -33,13 +33,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_amirazad1_creditor_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/github_com_amirazad1_creditor_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -47,13 +47,13 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "helper.BaseHttpResponse": {
+        "github_com_amirazad1_creditor_api_helper.BaseHttpResponse": {
             "type": "object",
             "properties": {
                 "error": {},
                 "result": {},
                 "resultCode": {
-                    "$ref": "#/definitions/helper.ResultCode"
+                    "$ref": "#/definitions/github_com_amirazad1_creditor_api_helper.ResultCode"
                 },
                 "success": {
                     "type": "boolean"
@@ -61,12 +61,12 @@ const docTemplate = `{
                 "validationErrors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/validation.ValidationError"
+                        "$ref": "#/definitions/github_com_amirazad1_creditor_api_validation.ValidationError"
                     }
                 }
             }
         },
-        "helper.ResultCode": {
+        "github_com_amirazad1_creditor_api_helper.ResultCode": {
             "type": "integer",
             "enum": [
                 0,
@@ -91,7 +91,7 @@ const docTemplate = `{
                 "InternalError"
             ]
         },
-        "validation.ValidationError": {
+        "github_com_amirazad1_creditor_api_validation.ValidationError": {
             "type": "object",
             "properties": {
                 "message": {
