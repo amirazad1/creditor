@@ -6,6 +6,7 @@ require (
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/gin-gonic/gin v1.10.1
 	github.com/go-playground/validator/v10 v10.20.0
+	github.com/go-redis/redis/v7 v7.4.1
 	github.com/spf13/viper v1.20.1
 )
 
