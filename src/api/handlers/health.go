@@ -15,5 +15,5 @@ func NewHealthHandler() *HealthHandler {
 }
 
 func (h *HealthHandler) Check(c *gin.Context) {
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse("The server is OK", true, 0))
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("The server is OK", true, helper.Success))
 }
