@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/amirazad1/creditor/api/helper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +15,5 @@ func NewHealthHandler() *HealthHandler {
 }
 
 func (h *HealthHandler) Check(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "server is OK",
-	})
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("The server is OK", true, 0))
 }
