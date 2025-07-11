@@ -7,20 +7,22 @@ import (
 	"github.com/amirazad1/creditor/api/routers"
 	"github.com/amirazad1/creditor/api/validation"
 	"github.com/amirazad1/creditor/config"
+	"github.com/amirazad1/creditor/docs"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
-	"github.com/amirazad1/creditor/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func InitServer(cfg *config.Config) {	
+func InitServer(cfg *config.Config) {
 	gin.SetMode(cfg.Server.RunMode)
 	server := gin.New()
 	RegisterValidators()
-	server.Use(gin.Logger(), gin.Recovery())
+
+	server.Use(middleware.DefaultStructuredLogger(cfg))
 	server.Use(middleware.Cors(cfg))
+	server.Use(gin.Logger(), gin.Recovery())
 
 	v1 := server.Group("/api/v1")
 	{
