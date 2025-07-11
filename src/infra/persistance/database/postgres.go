@@ -6,11 +6,13 @@ import (
 	"time"
 
 	"github.com/amirazad1/creditor/config"
+	"github.com/amirazad1/creditor/pkg/logging"
 	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"gorm.io/gorm"	
 )
 
 var dbClient *gorm.DB
+var logger = logging.NewLogger(config.GetConfig())
 
 func InitDb(cfg *config.Config) error {
 	var err error
@@ -33,6 +35,7 @@ func InitDb(cfg *config.Config) error {
 	sqlDb.SetMaxOpenConns(cfg.Postgres.MaxOpenConns)
 	sqlDb.SetConnMaxLifetime(cfg.Postgres.ConnMaxLifetime * time.Minute)
 
+	logger.Info(logging.Postgres,logging.Startup,"Db connection established",nil)
 	log.Println("Db connection established")
 	return nil
 }
