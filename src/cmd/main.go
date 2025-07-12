@@ -1,10 +1,11 @@
 package main
 
-import (	
+import (
 	"github.com/amirazad1/creditor/api"
 	"github.com/amirazad1/creditor/config"
 	"github.com/amirazad1/creditor/infra/cache"
 	"github.com/amirazad1/creditor/infra/persistance/database"
+	"github.com/amirazad1/creditor/infra/persistance/migration"
 	"github.com/amirazad1/creditor/pkg/logging"
 )
 
@@ -15,15 +16,19 @@ func main() {
 	cfg := config.GetConfig()
 	logger := logging.NewLogger(cfg)
 
-	if err := cache.InitRedis(cfg); err != nil {
+	err := cache.InitRedis(cfg)
+	defer cache.CloseRedis()
+	if err != nil {
 		logger.Fatal(logging.Redis, logging.Startup, err.Error(), nil)
 	}
-	defer cache.CloseRedis()
 
-	if err := database.InitDb(cfg); err != nil {
+	err = database.InitDb(cfg)
+	defer database.CloseDb()
+	if err != nil {
 		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
-	defer database.CloseDb()
+
+	migration.Up1()
 
 	api.InitServer(cfg)
 }
