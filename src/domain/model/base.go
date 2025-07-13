@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"time"
@@ -13,7 +13,7 @@ type City struct {
 type Building struct {
 	BaseModel
 	Name     string `gorm:"not null"`
-	CityId   int64  `gorm:"not null"`
+	CityId   int    `gorm:"not null"`
 	City     City   `gorm:"foreignKey:CityId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
 	Projects []Project
 }
@@ -21,7 +21,7 @@ type Building struct {
 type Project struct {
 	BaseModel
 	Name       string   `gorm:"not null"`
-	BuildingId int64    `gorm:"not null"`
+	BuildingId int      `gorm:"not null"`
 	Building   Building `gorm:"foreignKey:BuildingId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
 }
 
@@ -34,7 +34,7 @@ type CostTypeParent struct {
 type CostType struct {
 	BaseModel
 	Name             string         `gorm:"not null"`
-	CostTypeParentId int64          `gorm:"not null"`
+	CostTypeParentId int            `gorm:"not null"`
 	CostTypeParent   CostTypeParent `gorm:"foreignKey:CostTypeParentId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
 	CostSubTypes     []CostSubType
 }
@@ -42,7 +42,7 @@ type CostType struct {
 type CostSubType struct {
 	BaseModel
 	Name       string   `gorm:"not null"`
-	CostTypeId int64    `gorm:"not null"`
+	CostTypeId int      `gorm:"not null"`
 	CostType   CostType `gorm:"foreignKey:CostTypeId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
 }
 
@@ -70,17 +70,17 @@ type Plan struct {
 
 type PlanProject struct {
 	BaseModel
-	PlanId    int64
+	PlanId    int
 	Plan      Plan    `gorm:"foreignKey:PlanId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
-	ProjectId int64   `gorm:"not null"`
+	ProjectId int     `gorm:"not null"`
 	Project   Project `gorm:"foreignKey:ProjectId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
-	Amount    int64   `gorm:"not null"`
+	Amount    int     `gorm:"not null"`
 }
 
 type Addition struct {
 	BaseModel
 	Name   string  `gorm:"not null"`
 	Amount float32 `gorm:"not null"`
-	YearId int64   `gorm:"not null"`
+	YearId int     `gorm:"not null"`
 	Year   Year    `gorm:"foreignKey:YearId;constraint:OnUpdate:CASCADE;OnDelete:CASCADE"`
 }

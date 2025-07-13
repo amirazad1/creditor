@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"database/sql"
@@ -8,25 +8,25 @@ import (
 )
 
 type BaseModel struct {
-	Id int64 `gorm:"primarykey"`
+	Id int `gorm:"primarykey"`
 
 	CreatedAt  time.Time    `gorm:"type:TIMESTAMP with time zone;not null"`
 	ModifiedAt sql.NullTime `gorm:"type:TIMESTAMP with time zone;null"`
 	DeletedAt  sql.NullTime `gorm:"type:TIMESTAMP with time zone;null"`
 
-	CreatedBy  int64          `gorm:"not null"`
+	CreatedBy  int            `gorm:"not null"`
 	ModifiedBy *sql.NullInt64 `gorm:"null"`
 	DeletedBy  *sql.NullInt64 `gorm:"null"`
 
-	Active  sql.NullBool `gorm:"default:true"`
+	Active bool `gorm:"default:true"`
 }
 
 func (m *BaseModel) BeforeCreate(tx *gorm.DB) (err error) {
 	value := tx.Statement.Context.Value("userId")
-	var userId int64 = -1
+	var userId int = -1
 
 	if value != nil {
-		userId = int64(value.(float64))
+		userId = int(value.(float64))
 	}
 
 	m.CreatedAt = time.Now().UTC()
