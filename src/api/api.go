@@ -24,16 +24,22 @@ func InitServer(cfg *config.Config) {
 	server.Use(middleware.Cors(cfg))
 	server.Use(gin.Logger(), gin.Recovery())
 
-	v1 := server.Group("/api/v1")
-	{
-		health := v1.Group("/health")
-		routers.Health(health)
-	}
-
+	RegisterRoutes(server, cfg)
 	RegisterSwagger(server, cfg)
 
 	fmt.Println("server is running")
 	server.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+}
+
+func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
+	api := r.Group("/api")
+	v1 := api.Group("/v1")
+
+	health := v1.Group("/health")
+	routers.Health(health)
+
+	user := v1.Group("/users")
+	routers.User(user, cfg)
 }
 
 func RegisterValidators() {
