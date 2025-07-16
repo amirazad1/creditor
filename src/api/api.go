@@ -22,7 +22,7 @@ func InitServer(cfg *config.Config) {
 
 	server.Use(middleware.DefaultStructuredLogger(cfg))
 	server.Use(middleware.Cors(cfg))
-	server.Use(gin.Logger(), gin.Recovery())
+	server.Use(gin.Logger(), gin.CustomRecovery(middleware.ErrorHandler),middleware.LimitByRequest())
 
 	RegisterRoutes(server, cfg)
 	RegisterSwagger(server, cfg)
