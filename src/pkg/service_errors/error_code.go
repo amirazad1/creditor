@@ -14,5 +14,10 @@ const (
 	OtpUsed     = "Otp used"
 	OtpNotValid = "Otp invalid"
 
-	InvalidRolesFormat = "invalid roles format"
+	// User
+	EmailExists               = "Email exists"
+	UsernameExists            = "Username exists"	
+	UsernameOrPasswordInvalid = "username or password invalid"
+	InvalidRolesFormat        = "invalid roles format"
+
 )

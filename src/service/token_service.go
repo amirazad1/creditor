@@ -7,6 +7,7 @@ import (
 	constants "github.com/amirazad1/creditor/constant"
 	"github.com/amirazad1/creditor/pkg/logging"
 	"github.com/amirazad1/creditor/pkg/service_errors"
+	"github.com/amirazad1/creditor/service/dto"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 )
@@ -24,14 +25,6 @@ type tokenDto struct {
 	Roles        []string
 }
 
-
-type TokenDetail struct {
-	AccessToken            string
-	RefreshToken           string
-	AccessTokenExpireTime  int64
-	RefreshTokenExpireTime int64
-}
-
 func NewTokenService(cfg *config.Config) *TokenService {
 	logger := logging.NewLogger(cfg)
 	return &TokenService{
@@ -40,8 +33,8 @@ func NewTokenService(cfg *config.Config) *TokenService {
 	}
 }
 
-func (u *TokenService) GenerateToken(token tokenDto) (*TokenDetail, error) {
-	td := &TokenDetail{}
+func (u *TokenService) GenerateToken(token tokenDto) (*dto.TokenDetail, error) {
+	td := &dto.TokenDetail{}
 	td.AccessTokenExpireTime = time.Now().Add(u.cfg.JWT.AccessTokenExpireDuration * time.Minute).Unix()
 	td.RefreshTokenExpireTime = time.Now().Add(u.cfg.JWT.RefreshTokenExpireDuration * time.Minute).Unix()
 
@@ -112,7 +105,7 @@ func (u *TokenService) GetClaims(token string) (claimMap map[string]interface{},
 	return nil, &service_errors.ServiceError{EndUserMessage: service_errors.ClaimsNotFound}
 }
 
-func (s *TokenService) RefreshToken(c *gin.Context) (*TokenDetail, error) {
+func (s *TokenService) RefreshToken(c *gin.Context) (*dto.TokenDetail, error) {
 	refreshToken, err := c.Cookie(constants.RefreshTokenCookieName)
 	if err != nil {
 		return nil, &service_errors.ServiceError{EndUserMessage: service_errors.InvalidRefreshToken}
